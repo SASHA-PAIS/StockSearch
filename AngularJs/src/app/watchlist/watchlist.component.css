@@ -1,0 +1,31 @@
+.close-custom{
+    font-size: 20px; /* Adjust the size as needed */
+    color: #000; /* Color of the '×' */
+    opacity: 0.5; /* Make it less prominent, if necessary */
+    cursor: pointer; /* Change cursor on hover */
+    background: white;
+}
+
+#close-btn {
+  display: inline-block; /* Makes the button inline, which allows it to only take up as much space as it needs */
+  background: none; 
+  border: none; /* Removes the border */
+  padding: 0; /* Removes padding */
+  width: 10px;
+}
+
+strong{
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  font-size: 28px;
+}
+
+.item-ticker{
+  font-weight: 450;
+  letter-spacing: 0.5px;
+  font-size: 26px;
+}
+
+.custom-height{
+  line-height: 1.8;
+}

@@ -1,0 +1,16 @@
+.footer{
+    width:100%;
+    line-height: 30px;
+    font-size: 10px;
+    font-weight: 600;
+    background-color: rgb(224, 224, 224);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    
+}
+
+.container{
+    width: 100%;
+}

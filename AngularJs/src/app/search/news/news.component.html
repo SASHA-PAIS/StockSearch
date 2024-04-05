@@ -1,0 +1,17 @@
+<div class="container" id="news-content">
+    <div class="row p-1" *ngIf="allNews">
+        <div
+            class="card col-12 col-sm-5 m-2 bg-light mx-auto p-0"
+            *ngFor="let news of allNews"
+        >
+            <div class="card-body row p-0 m-0" (click)="openNewsDetail(news)">
+                <div class="col-12 col-md-3 m-0 p-2 m-0">
+                    <img class="card-img m-0 my-auto img-fluid w-100" src="{{ news.image }}" style = "aspect-ratio: 3/2;" alt="News Card Image"/>
+                </div>
+                <div class="col pt-0 pb-2 m-0 p-md-2">
+                    <p class="card-title text-center ellipsis-news" style="font-size: small">{{ news.headline }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

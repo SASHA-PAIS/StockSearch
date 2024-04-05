@@ -1,0 +1,55 @@
+
+.container {
+    padding: 15px; /* Adjust padding as needed */
+  }
+
+img {
+    /* width: 50%;
+    height: 50%; */
+    display: inline-block;
+    margin-top: 0;
+}
+
+.price-info{
+    display: inline-block;
+    line-height: 2;
+}
+
+h3{
+    font-size: 2em;
+    font-weight: 450;
+}
+
+h4{
+    font-size: 1.4em;
+}
+
+.change{
+    display: inline;
+    font-weight: 500;
+}
+
+.sell-button{
+    margin-left: 8px;
+}
+
+h2{
+    font-size: 2em;
+}
+
+h5{
+    margin-top: 9px;
+    font-size: 0.8em;
+}
+
+.percent-change{
+    font-size: 1.4em;
+}
+
+.market{
+    font-weight: bold;
+}
+
+.custom-line-height{
+    line-height: 0.8;
+}

@@ -1,0 +1,19 @@
+.card-title {
+    line-height: 20px;
+    font-weight: 400;
+    font-size: 14px;
+    color:black;
+    font-weight: 480;;
+  }  
+
+  .ellipsis-news{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+/* 
+  .card-image{
+    width: 50%;
+    height: 100%;
+  } */

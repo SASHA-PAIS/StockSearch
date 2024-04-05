@@ -1,0 +1,48 @@
+<div class="col p-2 m-0 mt-3 text-center" id="header-text">
+  <h1>STOCK SEARCH</h1>
+</div>
+
+<div class="row mx-auto"> 
+  <form class="row col-md-6 col-7 mx-auto">
+    <div class="input-group rounded-pill" id="outer">
+      <input type="text" [formControl]="inputTicker" placeholder="Enter stock ticker symbol" matInput aria-describedby="submitButton" (keyup.enter)="onSubmit()" class="form-control border-0 ms-2 me-1 p-0" [matAutocomplete] = "auto" />
+
+      <!-- Input field -->
+      <mat-autocomplete class="autocomplete" #auto = "matAutocomplete" (optionSelected)="onSubmit()">
+          <mat-option *ngIf="isLoading" class="loading"><mat-spinner diameter="40"></mat-spinner></mat-option>
+          <ng-container *ngIf="!isLoading">
+              <mat-option class="option" *ngFor="let company of companiesFiltered.result" [value]="company.symbol">
+                  <span>{{ company.displaySymbol }}</span>
+                  <small> | {{ company.description }}</small>
+              </mat-option>
+          </ng-container>
+      </mat-autocomplete>
+
+      <!-- Search Button -->
+      <div class="input-group-append mx-2 border-0 p-0">
+          <button id="submitButton" (click)="onSubmit()" class="btn btn-link m-0 border-0 p-0">
+
+              <svg
+              width="1em"
+              height="1em"
+              viewBox="0 0 16 16"
+              class="bi bi-search text-success"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"
+              />
+            </svg>
+
+          </button>
+          <span class="m-0 border-0 clear-button" (click)="clearForm()" aria-hidden="true">&times;</span>
+      </div>
+    </div>
+  </form>
+</div>

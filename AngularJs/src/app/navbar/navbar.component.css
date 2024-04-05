@@ -1,0 +1,19 @@
+nav {
+    background: rgb(21, 7, 141);
+    padding: 8px;
+    font-size: 12px;
+}
+
+.navbar-brand{
+    font-size: 15px;
+}
+
+.active {
+    border-color: white;
+    border: 2px solid white;
+    border-radius: 10px;
+}
+
+.navbar-nav .nav-link {
+    padding: 8px 12px; /* Adjust the top/bottom padding (5px) and left/right padding (10px) as needed */
+  }

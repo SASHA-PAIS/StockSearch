@@ -1,0 +1,147 @@
+<!-- buy success alert -->
+<ngb-alert
+    *ngIf="buySuccessMessage"
+    type="success"
+    class="text-center mx-auto mt-3 col-md-8 col-11"
+    (close)="buySuccessMessage = ''"
+    >{{ ticker }} bought successfully!</ngb-alert>
+
+<!-- Sell success alert -->
+<ngb-alert
+    *ngIf="sellSucessMessage"
+    type="danger"
+    class="text-center mx-auto my-3 col-md-8 col-11"
+    (close)="sellSucessMessage = ''"
+    >{{ ticker }} sold successfully!</ngb-alert>
+
+
+<div class="container my-2 p-0 col-md-8 col-11">
+    <h1 class="portfolio-header m-0 mt-5 p-0">My Portfolio</h1>
+    <h3 class="portfolio-header m-0 p-0 mt-2 wallet">Money in Wallet: ${{ wallet | number: "1.0-2" }}</h3>
+</div>
+
+<div class="container my-0 p-0 col-md-8 col-11">
+    <!-- Spinner Area -->
+    <mat-spinner diameter="40"
+        *ngIf="!fetchFinish && !isEmpty"
+        class="mt-4 mx-auto"
+    ></mat-spinner>
+
+    <!-- empty portfolio alert area -->
+    <ngb-alert
+        [dismissible]="false"
+        *ngIf="error"
+        class="text-center text-dark"
+        >Currently you don't have any stock.
+    </ngb-alert>
+
+    <!-- Purchased stock cards area -->
+    <div *ngIf="fetchFinish && !isEmpty">
+        <div *ngFor="let item of tickerInfoArray" class="card p-0 my-3">
+            <div class="card-header py-0 px-4">
+                <div class="p-1 d-flex align-items-right">
+                    <h1 class="m-0 p-0">{{ item.ticker }}</h1>
+                    <h3 class="m-0 ms-1 p-1 text-secondary">{{ item.name }}</h3>
+                </div>
+            </div>
+            <div class="card-body my-1">
+                <div class="card-text row m-0 my-2 content">
+                    <!-- First Column -->
+                    <div class="col-sm p-0 m-0 mx-1">
+                        <div class="row m-0 p-0">
+                            <div class="col-8 col-md-6 m-0 p-0">Quantity:</div>
+                            <div class="col-4 col-md-6 m-0 p-0">{{ item.quantity | number: "1.0-2" }}</div>
+                        </div>
+                        <div class="row m-0 p-0">
+                            <div class="col-8 col-md-6 m-0 p-0">Avg. Cost / Share:</div>
+                            <div class="col-4 col-md-6 m-0 p-0 text-right">
+                                {{ item.avgCost | number: "1.0-2" }}
+                            </div>
+                        </div>
+                        <div class="row m-0 p-0">
+                            <div class="col-8 col-md-6 m-0 p-0">Total Cost:</div>
+                            <div class="col-4 col-md-6 m-0 p-0 text-right">
+                                {{ item.totalCost | number: "1.0-2" }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Second Column -->
+                    <div class="col-sm p-0 m-0 mx-1">
+                        <div class="row m-0 p-0">
+                            <div class="col m-0 p-0 col-8 col-md-6">Change:</div>
+                            <div 
+                                class="col m-0 p-0 text-right font-weight-bold col-4 col-md-6"
+                                [class.text-danger]="item.change < 0"
+                                [class.text-success]="item.change > 0"
+                            >
+                                <svg
+                                    *ngIf="item.change > 0"
+                                    width="1em"
+                                    height="1em"
+                                    viewBox="0 0 16 16"
+                                    class="bi bi-caret-up-fill"
+                                    fill="green"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                    class="pos"
+                                    d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"
+                                    />
+                                </svg>
+                                <svg
+                                    *ngIf="item.change < 0"
+                                    width="1em"
+                                    height="1em"
+                                    viewBox="0 0 16 16"
+                                    class="bi bi-caret-down-fill"
+                                    fill="red"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                    class="neg"
+                                    d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+                                    />
+                                </svg>
+                                {{ item.change | number: "1.0-2" }}
+                            </div>
+                        </div>
+                        <div class="row m-0 p-0">
+                            <div class="col m-0 p-0 col-8 col-md-6">Current Price:</div>
+                            <div
+                              class="col m-0 p-0 text-right font-weight-bold col-4 col-md-6"
+                              [class.text-danger]="item.change < 0"
+                              [class.text-success]="item.change > 0"
+                            >
+                              {{ item.currentPrice | number: "1.0-2" }}
+                            </div>
+                        </div>
+                        <div class="row m-0 p-0">
+                            <div class="col m-0 p-0 col-8 col-md-6">Market Value:</div>
+                            <div
+                              class="col m-0 p-0 text-right font-weight-bold col-4 col-md-6"
+                              [class.text-danger]="item.change < 0"
+                              [class.text-success]="item.change > 0"
+                            >
+                              {{ item.marketValue | number: "1.0-2" }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer py-2 d-flex">
+                <button
+                    class="btn btn-primary mx-1 border-0"
+                    (click) = "openTransactionButton(item.ticker, item.name, item.currentPrice, 'Buy')"
+                >
+                    Buy
+                </button>
+                <button
+                    class="btn btn-primary mx-1 bg-danger border-0"
+                    (click) = "openTransactionButton(item.ticker, item.name, item.currentPrice, 'Sell')"
+                >
+                    Sell
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

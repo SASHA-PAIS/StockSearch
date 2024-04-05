@@ -1,0 +1,86 @@
+<div class="container my-5 p-0 col-md-8 col-11">
+    <h1 class="watchlist-header"><strong>My Watchlist</strong></h1>
+</div>
+
+<div class="container my-0 p-0 col-md-8 col-11">
+    <mat-spinner diameter="40"
+        *ngIf="!fetchFinish && !isEmpty"
+        class="mt-4 mx-auto"
+    ></mat-spinner>
+    <ngb-alert [dismissible]="false" *ngIf="error" class="text-center text-dark"
+        >Currently you don't have any stock in your watchlist.
+    </ngb-alert>
+    <div *ngIf="fetchFinish && !isEmpty">
+        <ngb-alert
+            type="alert.type"
+            *ngFor="let item of tickerInfoArray"
+            class="card p-0 border"
+            [dismissible]="false"
+            (close)="removeFromWatchlist(item)"
+        >   
+            <!-- Alert content -->
+            <button type="button" id="close-btn" class="close p-0 border-0 ms-3 mt-3" aria-label="Close" (click)="removeFromWatchlist(item)">
+                <span class="m-0 border-0 close-custom" aria-hidden="true">&times;</span>
+            </button>
+            <div class="row mx-1 my-3" (click)="linkToDetails($event, item.ticker)">
+                <div class="col custom-height">
+                    <h1 class="m-0 p-0 flex-row item-ticker">
+                      {{ item.ticker }}
+                    </h1>
+                    <h3 class="m-0 p-0 flex-row text-dark item-name">
+                      {{ item.name }}
+                    </h3>
+                </div>
+                <div class="col custom-height">
+                    <h1
+                        class="m-0 p-0 flex-row last-price d-flex"
+                        [class.text-danger]="item.change < 0"
+                        [class.text-success]="item.change > 0"
+                        >
+                        <strong>{{ item.currentPrice  | number: "1.0-2"}}</strong>
+                    </h1>
+                    <div
+                        class="m-0 p-0 flex-row d-flex change"
+                        [class.text-danger]="item.change < 0"
+                        [class.text-success]="item.change > 0"
+                    >
+                        <p class="m-0 p-0">
+                            <svg
+                                *ngIf="item.change > 0"
+                                width="1em"
+                                height="1em"
+                                viewBox="0 0 16 16"
+                                class="bi bi-caret-up-fill"
+                                fill="green"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    class="pos"
+                                    d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"
+                                />
+                            </svg>
+
+                            <svg
+                                *ngIf="item.change < 0"
+                                width="1em"
+                                height="1em"
+                                viewBox="0 0 16 16"
+                                class="bi bi-caret-down-fill"
+                                fill="red"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    class="neg"
+                                    d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+                                />
+                            </svg>
+                            {{ item.change | number: "1.0-2" }} ({{
+                                item.changePercent | number: "1.0-2"
+                            }}%)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </ngb-alert>
+    </div>
+</div>

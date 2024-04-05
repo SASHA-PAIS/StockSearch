@@ -1,0 +1,25 @@
+.close {
+    border: none;
+    background: none;
+    font-size: 1rem; /* Adjust the size as needed */
+    color: rgb(19, 117, 156); /* Your preferred color */
+    opacity: 0.7; /* Adjust opacity as needed */
+    cursor: pointer;
+  }
+
+
+  div.modal-header h2{
+    color: rgb(68, 67, 67);
+    font-weight: 400;
+  }
+
+  input{
+    width: 80%;
+    border-radius:2px;
+    border: 1px solid rgb(169, 162, 162);
+    padding: 5px;
+  }
+
+  .danger{
+    color: rgb(197, 61, 61);
+  }

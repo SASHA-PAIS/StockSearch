@@ -1,0 +1,203 @@
+<app-search> </app-search>
+
+
+<mat-spinner diameter="40"
+    *ngIf = "
+        (!metadata || !peers || !quote || !hourlyChartFinish) && ticker
+    "
+    class="mt-4 mx-auto">
+</mat-spinner>
+
+<div *ngIf="!error1 && metadata && metadata.ticker && quote && peers && hourlyChartFinish" class = "container my-4 mx-auto p-0 m-0" id="details-content">
+
+    <!-- buy success alert -->
+    <ngb-alert
+        *ngIf="buySuccessMessage"
+        type="success"
+        class="text-center col-10 mx-auto"
+        (close)="buySuccessMessage = ''"
+        >{{ ticker | uppercase }} bought successfully!</ngb-alert
+    >
+
+    <!-- Sell success alert -->
+        <ngb-alert
+        *ngIf="sellSucessMessage"
+        type="danger"
+        class="text-center col-10 mx-auto"
+        (close)="sellSucessMessage = ''"
+        >{{ ticker | uppercase }} sold successfully!</ngb-alert
+    >
+
+    <!-- watchlist alert -->
+    <ngb-alert
+        *ngIf="starSuccessMessage && inWatchlist"
+        type="success"
+        class="text-center col-10 mx-auto"
+        (close)="starSuccessMessage = ''"
+        >
+        {{ ticker | uppercase }} added to Watchlist.
+    </ngb-alert>
+
+    <ngb-alert
+        *ngIf="starSuccessMessage && !inWatchlist"
+        type="danger"
+        class="text-center col-10 mx-auto"
+        (close)="starSuccessMessage = ''"
+        >
+        {{ ticker | uppercase }} removed from Watchlist.
+    </ngb-alert>
+
+    <div class="row col-md-10 col-12 mx-auto justify-content-center">
+        <!-- Company Info and Logo Section -->
+        <div class="col-5 col-md-3 text-center text-md-left">
+            <h2>{{ metadata.ticker }}
+                <div class="m-0 p-0 d-inline-flex" (click)="onClickStar()">
+                    <svg
+                        *ngIf="inWatchlist"
+                        width="0.7em"
+                        height="0.7em"
+                        viewBox="0 0 17 17"
+                        class="bi bi-star-fill mx-1 my-0"
+                        fill="#FFC300"
+                        xmlns="http://www.w3.org/2000/svg"
+                        >
+                        <path
+                            class="star-fill-icon"
+                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+                        />
+                    </svg>
+                    <svg
+                        *ngIf="!inWatchlist"
+                        width="0.7em"
+                        height="0.7em"
+                        viewBox="0 0 17 17"
+                        class="bi bi-star mx-1 my-0"
+                        fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
+                        >
+                        <path
+                            class="star-icon"
+                            fill-rule="evenodd"
+                            d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"
+                        />
+                    </svg>
+                </div>
+            </h2>
+            <h4 class="custom-line-height">{{ metadata.name }}</h4>
+            <h5 class="text-secondary custom-line-height">{{ metadata.exchange }}</h5>
+            <button class="btn btn-success" (click) = "openTransactionButton(metadata.ticker, metadata.name, quote.c, 'Buy')">
+                Buy
+            </button>
+            <button *ngIf = enabled  class="btn btn-danger sell-button" (click) = "openTransactionButton(metadata.ticker, metadata.name, quote.c, 'Sell')">
+                Sell
+            </button>
+        </div>
+
+
+        <div class="col-md-3 col-2 p-1 px-md-1 p-md-0 text-center">
+            <div class="px-0 border-0 h-100 w-100 p-2 p-md-0">
+                <div class="mx-auto col-12 col-md-4 h-100">
+                    <img class="w-100" src="{{ metadata.logo }}" alt="Company logo" class="img-fluid">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-5 text-center text-md-right font-weight-bold">
+            <div class="price-info text-center">
+                <h3 class="p-0 m-0 my-2" [class.text-success]="quote.d > 0" [class.text-danger]="quote.d < 0">{{ quote.c  | number: "1.0-2"}}</h3>
+                <div
+                    class="col m-0 p-0 font-weight-bold percent-change text-center custom-line-height"
+                    [class.text-danger]="quote.d < 0"
+                    [class.text-success]="quote.d > 0"
+                >
+                    <!-- green arrow up if positive change -->
+                    <svg
+                        *ngIf="quote.d > 0"
+                        width="0.8em"
+                        height="0.8em"
+                        viewBox="0 0 16 16"
+                        class="bi bi-caret-up-fill"
+                        fill="green"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                        class="pos"
+                        d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"
+                        />
+                    </svg>
+                    <!-- red arrow down if negative change -->
+                    <svg
+                        *ngIf="quote.d < 0"
+                        width="0.8em"
+                        height="0.8em"
+                        viewBox="0 0 16 16"
+                        class="bi bi-caret-down-fill"
+                        fill="red"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                        class="neg"
+                        d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+                        />
+                    </svg>
+                        <p class="change ms-1">{{quote.d | number: "1.0-2"}} ({{ quote.dp | number: "1.0-2" }}%)</p>
+                </div>
+
+                <h5 ckass="text-muted">{{ convertedDate }}</h5>
+            </div>
+        </div>
+    </div>
+    <div class="row mx-auto my-3">
+        <div
+            *ngIf="marketOpen"
+        >
+            <h5 class="text-success text-center market">Market is open</h5>
+        </div>
+        <div
+            *ngIf="!marketOpen"
+        >
+        <h5 class="text-danger text-center market">Market Closed on {{ convertedDate }}</h5>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- If the ticker exists then show the tab area -->
+<div *ngIf="!error1 && metadata && metadata.ticker && quote && peers && hourlyChartFinish" class="container  mx-auto col-md-9 col-12">
+    <mat-tab-group mat-stretch-tabs selectedIndex="0">
+        <mat-tab label = "Summary">
+            <app-summary [hourlyChart] = "hourlyChart" [quote] = "quote" [ticker] = "ticker"></app-summary>
+        </mat-tab>
+        <mat-tab label = "Top News">
+            <app-news></app-news>
+        </mat-tab>
+        <mat-tab label = "Charts">
+            <app-charts [histChart] = "histChart"></app-charts>
+        </mat-tab>
+        <mat-tab label = "Insights">
+            <app-insights [recommendationChart] = "recommendationChart" [insider] = "insider" [earningsChart] = "earningsChart" [name] = "name"></app-insights>
+        </mat-tab>
+    </mat-tab-group>
+
+    <div class="container" id="charts-content"></div>
+
+</div>
+
+<!-- if ticker does not exist, show message -->
+<ngb-alert
+  *ngIf="error1"
+  type="danger"
+  class="text-center container  mx-auto col-8 mt-4"
+  >
+    Please enter valid ticker
+</ngb-alert>
+
+<ngb-alert
+        *ngIf="error2"
+        type="danger"
+        class="text-center container  mx-auto col-8 mt-4"
+        [dismissible]="false"
+        >
+            No results found. Please enter valid Ticker
+</ngb-alert>
